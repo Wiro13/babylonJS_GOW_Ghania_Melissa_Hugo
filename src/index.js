@@ -28,10 +28,9 @@ window.onload = () => {
 
 var createScene = function () {
     var scene = new Scene(engine);
-
     // Use FollowCamera instead of FreeCamera
     camera = new FollowCamera("followCamera", new Vector3(0, 5, -10), scene);
-
+    
     // Set the camera position behind the sphere
     camera.radius = 10;
     camera.heightOffset = 2; // Adjust the height to position it slightly above the sphere
