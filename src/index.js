@@ -1,52 +1,75 @@
-import { Engine, FreeCamera, HemisphericLight, MeshBuilder, Scene, Vector3 } from "@babylonjs/core";
+import { Engine, ArcFollowCamera, ArcRotateCamera, BoundingInfo, Color3, Color4, CubeTexture, DefaultRenderingPipeline, DirectionalLight, FlyCamera, FollowCamera, FreeCamera, GizmoManager, HavokPlugin, HemisphericLight, KeyboardEventTypes, MeshBuilder, MotionBlurPostProcess, ParticleSystem, PhysicsAggregate, PhysicsMotionType, PhysicsShapeType, Quaternion, Scalar, Scene, SceneLoader, ShadowGenerator, Sound, StandardMaterial, TargetCamera, Texture, TransformNode, UniversalCamera, Vector3 } from "@babylonjs/core";
+import { Inspector } from "@babylonjs/inspector";
+import HavokPhysics from "@babylonjs/havok";
 
-let engine;
-let canvas;
-let papa;
-window.onload = () => {
-    canvas = document.getElementById("renderCanvas")
-    engine = new Engine(canvas, true);
-    let scene = createScene();
-    engine.runRenderLoop(function () {
-        papa.position.y +=0.05;
+import meshUrl from "../assets/models/skier_lowpoly.glb";
+import mountainUrl from "../assets/models/snowy_slope.glb";
+import skierUrl from "../assets/models/skier_lowpoly.glb";
+
+let engine, canvas;
+
+window.onload = async () => {
+    let canvas = document.getElementById("renderCanvas");
+    let engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false });
+    
+    const scene = await createScene();
+    
+    Inspector.Show(scene, {});
+
+    engine.runRenderLoop(() => {
         scene.render();
-
     });
-    window.addEventListener("resize", function () {
+
+    window.addEventListener("resize", () => {
         engine.resize();
     });
+};
 
-}
+const createScene = async () => {
+    const scene = new Scene(engine);
 
-var createScene = function () {
-    // This creates a basic Babylon Scene object (non-mesh)
-    var scene = new Scene(engine);
-
-    // This creates and positions a free camera (non-mesh)
-    var camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
-
-    // This targets the camera to scene origin
+    const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
     camera.setTarget(Vector3.Zero());
-
-    // This attaches the camera to the canvas
     camera.attachControl(canvas, true);
 
-    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    var light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
-
-    // Default intensity is 1. Let's dim the light a small amount
+    const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
 
-    // Our built-in 'sphere' shape.
-    var sphere = MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
+    const sphere = MeshBuilder.CreateSphere("sphere", { diameter: 2, segments: 32 }, scene);
+    sphere.position.x = 10
 
-    // Move the sphere upward 1/2 its height
-    sphere.position.y = 1;
+    const ground = MeshBuilder.CreateGround("ground", { width: 100, height: 100 }, scene);
 
-    // Our built-in 'ground' shape.
-    var ground = MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
-    papa = MeshBuilder.CreateCapsule("papa",scene); 
-    papa.position = new Vector3(3,2,0);
+    const havokInstance = await HavokPhysics();
+    const hk = new HavokPlugin(true, havokInstance);
+    scene.enablePhysics(new Vector3(0, -9.8, 0), hk);
+
+    const sphereAggregate = new PhysicsAggregate(sphere, PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75 }, scene);
+    const groundAggregate = new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
+
+    // Importation et application de la physique au mesh de montagne
+    SceneLoader.ImportMesh("", "", mountainUrl, scene, function (newMeshes) {
+        const mountain = newMeshes[0];
+        mountain.name = "mountain";
+        // Création d'un agrégat physique pour la montagne
+        // const mountainAggregate = new PhysicsAggregate(mountain, PhysicsShapeType.MESH, { mass: 0, restitution: 0.75 }, scene);
+        
+        // Mise à jour de la cible de la caméra
+        camera.target = mountain;
+    });
+
+    // Importation et application de la physique au mesh de montagne
+
+    SceneLoader.ImportMeshAsync("", "", skierUrl,).then((result) => {
+        // Create a collider box
+        var colliderBox = MeshBuilder.CreateBox("collider", {width: 1, height: 0.5, depth: 1.5});
+        colliderBox.material = new StandardMaterial("colliderBoxMat");
+        colliderBox.isVisible = false;
+        result.meshes[0].parent = colliderBox;
+
+        colliderBox.position.y = 2;
+        new PhysicsAggregate(colliderBox, PhysicsShapeType.CONVEX_HULL, { mass: 1, restitution: 0 }, scene);
+    });
 
     return scene;
 };
