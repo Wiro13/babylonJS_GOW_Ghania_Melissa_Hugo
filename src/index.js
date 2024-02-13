@@ -1,52 +1,94 @@
-import { Engine, FreeCamera, HemisphericLight, MeshBuilder, Scene, Vector3 } from "@babylonjs/core";
+import { Engine, FollowCamera, HemisphericLight, MeshBuilder, Scene, Vector3, StandardMaterial, Color3 } from "@babylonjs/core";
 
 let engine;
 let canvas;
 let papa;
-window.onload = () => {
-    canvas = document.getElementById("renderCanvas")
-    engine = new Engine(canvas, true);
-    let scene = createScene();
-    engine.runRenderLoop(function () {
-        papa.position.y +=0.05;
-        scene.render();
+let camera;
+let scene;
 
+window.onload = () => {
+    canvas = document.getElementById("renderCanvas");
+    engine = new Engine(canvas, true);
+    scene = createScene();
+
+    // Event listeners for arrow key presses
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    engine.runRenderLoop(function () {
+        // Update camera and sphere rotation
+        camera.target = papa.position.clone();
+        scene.render();
     });
+
     window.addEventListener("resize", function () {
         engine.resize();
     });
-
 }
 
 var createScene = function () {
-    // This creates a basic Babylon Scene object (non-mesh)
     var scene = new Scene(engine);
 
-    // This creates and positions a free camera (non-mesh)
-    var camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
+    // Use FollowCamera instead of FreeCamera
+    camera = new FollowCamera("followCamera", new Vector3(0, 5, -10), scene);
 
-    // This targets the camera to scene origin
-    camera.setTarget(Vector3.Zero());
+    // Set the camera position behind the sphere
+    camera.radius = 10;
+    camera.heightOffset = 2; // Adjust the height to position it slightly above the sphere
+    camera.rotationOffset = 180; // Rotate the camera to face the back of the sphere
 
-    // This attaches the camera to the canvas
-    camera.attachControl(canvas, true);
-
-    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     var light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
-
-    // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.7;
 
-    // Our built-in 'sphere' shape.
-    var sphere = MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
-
-    // Move the sphere upward 1/2 its height
+    var sphere = MeshBuilder.CreateSphere("sphere", { diameter: 2, segments: 32 }, scene);
     sphere.position.y = 1;
 
-    // Our built-in 'ground' shape.
-    var ground = MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
-    papa = MeshBuilder.CreateCapsule("papa",scene); 
-    papa.position = new Vector3(3,2,0);
+    var ground = MeshBuilder.CreateGround("ground", { width: 6, height: 6 }, scene);
+    var snowMaterial = new StandardMaterial("snowMaterial", scene);
+    snowMaterial.diffuseColor = new Color3(0.8, 0.8, 1); // Light blue color
+    snowMaterial.specularColor = new Color3(0, 0, 0);
+    ground.material = snowMaterial;
+
+    papa = MeshBuilder.CreateCapsule("papa", scene);
+    papa.position = new Vector3(3, 2, 0);
+
+    camera.lockedTarget = papa;
 
     return scene;
 };
+
+// Function to handle arrow key presses
+function handleKeyDown(event) {
+    const speed = 0.2; // Adjust the speed as needed
+
+    switch (event.key) {
+        case "ArrowUp":
+            papa.position.z += speed;
+            break;
+        case "ArrowDown":
+            papa.position.z -= speed;
+            break;
+        case "ArrowLeft":
+            papa.position.x -= speed;
+            updateRotation();
+            break;
+        case "ArrowRight":
+            papa.position.x += speed;
+            updateRotation();
+            break;
+    }
+}
+
+// Function to handle arrow key releases (optional)
+function handleKeyUp(event) {
+    // You can add logic here if needed
+}
+
+// Function to update the rotation of the sphere to face the movement direction
+function updateRotation() {
+    // Calculate the angle between the movement direction and the positive z-axis
+    const angle = Math.atan2(papa.position.x, papa.position.z);
+
+    // Set the sphere's rotation accordingly
+    papa.rotation.y = angle;
+}
