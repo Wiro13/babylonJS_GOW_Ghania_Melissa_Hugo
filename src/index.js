@@ -39,11 +39,7 @@ var createScene = async () => {
     // const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
     // camera.setTarget(Vector3.Zero());
     // camera.attachControl(canvas, true);
-
-    // // This targets the camera to scene origin
     // camera.setTarget(Vector3.Zero());
-
-    // // This attaches the camera to the canvas
     // camera.attachControl(canvas, true);
 
     // Use FollowCamera instead of FreeCamera
@@ -67,7 +63,7 @@ var createScene = async () => {
     sphere.position.x = 10;
 
     // Our built-in 'ground' shape.
-    let ground = MeshBuilder.CreateGround("ground", { width: 100, height: 100 }, scene);
+    let ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 }, scene);
 
     let snowMaterial = new StandardMaterial("snowMaterial", scene);
     snowMaterial.diffuseColor = new Color3(0.8, 0.8, 1); // Light blue color
@@ -79,31 +75,33 @@ var createScene = async () => {
     scene.enablePhysics(new Vector3(0, -9.8, 0), hk);
 
     papa = MeshBuilder.CreateCapsule("papa",scene); 
-    papa.position = new Vector3(3,2,0);
-
-    camera.lockedTarget = papa;
+    papa.position = new Vector3(0,5,0);
 
     const sphereAggregate = new PhysicsAggregate(sphere, PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75 }, scene);
     const groundAggregate = new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
+    const papaAggregate = new PhysicsAggregate(papa, PhysicsShapeType.CAPSULE, { mass: 1, restitution: 0.75 }, scene);
 
     // Importation et application de la physique au mesh de montagne
     SceneLoader.ImportMeshAsync("", "", skierUrl,).then((result) => {
         // Create a collider box
-        var colliderBox = MeshBuilder.CreateBox("collider", {width: 1, height: 0.5, depth: 1.5});
-        colliderBox.material = new StandardMaterial("colliderBoxMat");
-        colliderBox.isVisible = false;
-        result.meshes[0].parent = colliderBox;
+        var capsule = MeshBuilder.CreateCapsule("collider", scene);
+        capsule.material = new StandardMaterial("capsuleMat");
+        capsule.isVisible = false;
+        result.meshes[0].parent = capsule;
+        camera.lockedTarget = capsule;
 
-        colliderBox.position.y = 2;
-        new PhysicsAggregate(colliderBox, PhysicsShapeType.CONVEX_HULL, { mass: 1, restitution: 0 }, scene);
+
+        capsule.position.y = 2;
+        new PhysicsAggregate(capsule, PhysicsShapeType.CONVEX_HULL, { mass: 1, restitution: 0 }, scene);
     });
+
 
     return scene;
 };
 
 // Function to handle arrow key presses
 function handleKeyDown(event) {
-    const speed = 0.2; // Adjust the speed as needed
+    const speed = 0.1; // Adjust the speed as needed
 
     switch (event.key) {
         case "ArrowUp":
@@ -119,6 +117,9 @@ function handleKeyDown(event) {
         case "ArrowRight":
             papa.position.x += speed;
             updateRotation();
+            break;
+        case " ":
+            papa.position.y += 2;
             break;
     }
 }
