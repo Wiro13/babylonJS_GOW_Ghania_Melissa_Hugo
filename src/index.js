@@ -21,7 +21,7 @@ window.onload = async () => {
 
     engine.runRenderLoop(() => {
         // Update camera and sphere rotation
-        camera.target = papa.position.clone();
+        //camera.target = papa.position.clone();
         scene.render();
     });
 
@@ -36,19 +36,17 @@ var createScene = async () => {
     let scene = new Scene(engine);
 
     // This creates and positions a free camera (non-mesh)
-    // const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
-    // camera.setTarget(Vector3.Zero());
-    // camera.attachControl(canvas, true);
-    // camera.setTarget(Vector3.Zero());
-    // camera.attachControl(canvas, true);
+    const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
+    camera.setTarget(Vector3.Zero());
+    camera.attachControl(canvas, true);
 
     // Use FollowCamera instead of FreeCamera
-    camera = new FollowCamera("followCamera", new Vector3(0, 5, -10), scene);
+    // camera = new FollowCamera("followCamera", new Vector3(0, 5, -10), scene);
 
-    // Set the camera position behind the sphere
-    camera.radius = 10;
-    camera.heightOffset = 2; // Adjust the height to position it slightly above the sphere
-    camera.rotationOffset = 180; // Rotate the camera to face the back of the sphere
+    // // Set the camera position behind the sphere
+    // camera.radius = 10;
+    // camera.heightOffset = 2; // Adjust the height to position it slightly above the sphere
+    // camera.rotationOffset = 180; // Rotate the camera to face the back of the sphere
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     let light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
@@ -74,27 +72,44 @@ var createScene = async () => {
     const hk = new HavokPlugin(true, havokInstance);
     scene.enablePhysics(new Vector3(0, -9.8, 0), hk);
 
-    papa = MeshBuilder.CreateCapsule("papa",scene); 
+    papa = MeshBuilder.CreateCapsule("papa",scene);
     papa.position = new Vector3(0,5,0);
 
     const sphereAggregate = new PhysicsAggregate(sphere, PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75 }, scene);
     const groundAggregate = new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
     const papaAggregate = new PhysicsAggregate(papa, PhysicsShapeType.CAPSULE, { mass: 1, restitution: 0.75 }, scene);
 
-    // Importation et application de la physique au mesh de montagne
     SceneLoader.ImportMeshAsync("", "", skierUrl,).then((result) => {
         // Create a collider box
-        var capsule = MeshBuilder.CreateCapsule("collider", scene);
+        let capsule = MeshBuilder.CreateBox("collider", scene);
         capsule.material = new StandardMaterial("capsuleMat");
         capsule.isVisible = false;
-        result.meshes[0].parent = capsule;
-        camera.lockedTarget = capsule;
+        let skier = result.meshes[1]
+        skier.parent = capsule;
+        skier.scaling = new Vector3(0.01, 0.01, 0.01);
+        // camera.lockedTarget = capsule;
 
 
-        capsule.position.y = 2;
-        new PhysicsAggregate(capsule, PhysicsShapeType.CONVEX_HULL, { mass: 1, restitution: 0 }, scene);
+        capsule.position.y = 5;
+        capsule.position.x = 3.5;
+
+        new PhysicsAggregate(capsule, PhysicsShapeType.CONVEX_HULL, { mass: 3, restitution: 0 }, scene);
     });
 
+    // Importation et application de la physique au mesh de montagne
+    SceneLoader.ImportMeshAsync("", "", mountainUrl).then((result) => {
+        let mountain = result.meshes[1];
+        mountain.name ="Moutain"
+        mountain.position = new Vector3(0, 0, 0);
+        mountain.scaling = new Vector3(10, 10, 10);
+
+        let mountainMaterial = new StandardMaterial("mountainMaterial", scene);
+        mountainMaterial.diffuseColor = new Color3(1, 1, 1);
+        mountain.material = mountainMaterial;
+
+        //new PhysicsAggregate(mountain, PhysicsShapeType.BOX, { mass: 0, restitution: 0 }, scene);
+        new PhysicsAggregate(mountain, PhysicsShapeType.MESH, { mass: 0, restitution: 0 }, scene);
+    });
 
     return scene;
 };
