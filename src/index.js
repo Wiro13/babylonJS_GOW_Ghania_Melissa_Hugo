@@ -5,6 +5,7 @@ import { Models } from "./Models";
 
 import meshUrl from "../assets/models/skier_lowpoly.glb";
 import mountainUrl from "../assets/models/snowy_slope.glb";
+import { Player } from "./Player";
 
 
 let engine, canvas, papa, camera;
@@ -16,13 +17,10 @@ window.onload = async () => {
 
     Inspector.Show(scene, {});
 
-    // Event listeners for arrow key presses
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
     engine.runRenderLoop(() => {
-        // Update camera and sphere rotation
-        //camera.target = papa.position.clone();
         scene.render();
     });
 
@@ -33,44 +31,33 @@ window.onload = async () => {
 }
 
 var createScene = async () => {
-    // This creates a basic Babylon Scene object (non-mesh)
+    //Creation de la scene 
     let scene = new Scene(engine);
 
-    // This creates and positions a free camera (non-mesh)
+    //Gestion de la physique
+    const havokInstance = await HavokPhysics();
+    const hk = new HavokPlugin(true, havokInstance);
+    scene.enablePhysics(new Vector3(0, -9.81, 0), hk);
+
+    
+
+    //Creation de la caméra developpeur
     const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
     camera.setTarget(Vector3.Zero());
     camera.attachControl(canvas, true);
-
-    // Use FollowCamera instead of FreeCamera
-    // camera = new FollowCamera("followCamera", new Vector3(0, 5, -10), scene);
-
-    // // Set the camera position behind the sphere
-    // camera.radius = 10;
-    // camera.heightOffset = 2; // Adjust the height to position it slightly above the sphere
-    // camera.rotationOffset = 180; // Rotate the camera to face the back of the sphere
-
-    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+    
+    //Creation du Light
     let light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
-
-    // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.7;
 
+    /**************************************Gestion du joueur******************************************/
+    var player = new Player(scene);
+    
+
+
+
+
    
-
-
-
-
-    const havokInstance = await HavokPhysics();
-    const hk = new HavokPlugin(true, havokInstance);
-    scene.enablePhysics(new Vector3(0, -9.8, 0), hk);
-
-    papa = MeshBuilder.CreateCapsule("papa",scene);
-    papa.position = new Vector3(0,5,0);
-
-    
-    
-    const papaAggregate = new PhysicsAggregate(papa, PhysicsShapeType.CAPSULE, { mass: 1, restitution: 0.75 }, scene);
-    
     /**************************************Gestion des Object 3D******************************************/
     var ground = new Models(scene);
     ground.ground();
@@ -80,9 +67,47 @@ var createScene = async () => {
 
     var skieur = new Models(scene);
     //skieur.skieur();
+    /***********************************fin de Gestion des Object 3D***************************************/
    
     return scene;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Function to handle arrow key presses
 function handleKeyDown(event) {
