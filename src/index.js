@@ -95,7 +95,7 @@ var createScene = async () => {
 
         new PhysicsAggregate(capsule, PhysicsShapeType.CONVEX_HULL, { mass: 3, restitution: 0 }, scene);
     });
-
+    /*
     // Importation et application de la physique au mesh de montagne
     SceneLoader.ImportMeshAsync("", "", mountainUrl).then((result) => {
         let mountain = result.meshes[1];
@@ -110,7 +110,8 @@ var createScene = async () => {
         //new PhysicsAggregate(mountain, PhysicsShapeType.BOX, { mass: 0, restitution: 0 }, scene);
         new PhysicsAggregate(mountain, PhysicsShapeType.MESH, { mass: 0, restitution: 0 }, scene);
     });
-
+    */
+   //importMap(scene);
     return scene;
 };
 
@@ -151,4 +152,22 @@ function updateRotation() {
 
     // Set the sphere's rotation accordingly
     papa.rotation.y = angle;
+}
+
+function importMap(scene){
+ 
+    SceneLoader.ImportMeshAsync("", "", mountainUrl).then((result) => {
+        let mountain = result.meshes[1];
+        mountain.name ="Moutain"
+        mountain.position = new Vector3(0, 0, 0);
+        mountain.scaling = new Vector3(10, 10, 10);
+
+        let mountainMaterial = new StandardMaterial("mountainMaterial", scene);
+        mountainMaterial.diffuseColor = new Color3(1, 1, 1);
+        mountain.material = mountainMaterial;
+
+        //new PhysicsAggregate(mountain, PhysicsShapeType.BOX, { mass: 0, restitution: 0 }, scene);
+        new PhysicsAggregate(mountain, PhysicsShapeType.MESH, { mass: 0, restitution: 0 }, scene);
+    });
+
 }
