@@ -9,16 +9,12 @@ import { Player } from "./Player";
 
 
 let engine, canvas, papa, camera;
-
+/****************************Lancement de l'appli ************************************************* */
 window.onload = async () => {
     canvas = document.getElementById("renderCanvas");
     engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false });
     const scene = await createScene();
-
     Inspector.Show(scene, {});
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
 
     engine.runRenderLoop(() => {
         scene.render();
@@ -52,12 +48,7 @@ var createScene = async () => {
 
     /**************************************Gestion du joueur******************************************/
     var player = new Player(scene);
-    
 
-
-
-
-   
     /**************************************Gestion des Object 3D******************************************/
     var ground = new Models(scene);
     ground.ground();
@@ -68,83 +59,5 @@ var createScene = async () => {
     var skieur = new Models(scene);
     //skieur.skieur();
     /***********************************fin de Gestion des Object 3D***************************************/
-   
     return scene;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Function to handle arrow key presses
-function handleKeyDown(event) {
-    const speed = 0.1; // Adjust the speed as needed
-
-    switch (event.key) {
-        case "ArrowUp":
-            papa.position.z += speed;
-            break;
-        case "ArrowDown":
-            papa.position.z -= speed;
-            break;
-        case "ArrowLeft":
-            papa.position.x -= speed;
-            updateRotation();
-            break;
-        case "ArrowRight":
-            papa.position.x += speed;
-            updateRotation();
-            break;
-        case " ":
-            papa.position.y += 2;
-            break;
-    }
-}
-
-// Function to handle arrow key releases (optional)
-function handleKeyUp(event) {
-    // You can add logic here if needed
-}
-
-// Function to update the rotation of the sphere to face the movement direction
-function updateRotation() {
-    // Calculate the angle between the movement direction and the positive z-axis
-    const angle = Math.atan2(papa.position.x, papa.position.z);
-
-    // Set the sphere's rotation accordingly
-    papa.rotation.y = angle;
-}
-
