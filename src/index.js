@@ -6,6 +6,7 @@ import { Models } from "./Models";
 import meshUrl from "../assets/models/skier_lowpoly.glb";
 import mountainUrl from "../assets/models/snowy_slope.glb";
 import { Player } from "./Player";
+import { CharacterController } from "./CharacterController";
 
 
 let engine, canvas, papa, camera;
@@ -38,7 +39,7 @@ var createScene = async () => {
     
 
     //Creation de la caméra developpeur
-    const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
+    const camera = new FreeCamera("camera1", new Vector3(-18, 10, 0), scene);
     camera.setTarget(Vector3.Zero());
     camera.attachControl(canvas, true);
     
@@ -50,14 +51,15 @@ var createScene = async () => {
     var player = new Player(scene);
 
     /**************************************Gestion des Object 3D******************************************/
-    var ground = new Models(scene);
-    ground.ground();
+    // var ground = new Models(scene);
+    // ground.ground();
     
     var map = new Models(scene);
-    //map.importMontain();
+    map.importMontain();
 
     var skieur = new Models(scene);
-    //skieur.skieur();
+
+
     /***********************************fin de Gestion des Object 3D***************************************/
     return scene;
 };

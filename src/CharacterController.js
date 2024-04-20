@@ -2,45 +2,34 @@ import { Color3, Color4, CubeTexture, DefaultRenderingPipeline, DirectionalLight
 import { Inspector } from "@babylonjs/inspector";
 import HavokPhysics from "@babylonjs/havok";
 
-
-
-export class CharacterController{
-    constructor(scene,body){
+export class CharacterController {
+    constructor(scene,body) {
         this.scene = scene;
         this.body = body;
-     
+
+        // Listen to key down events on the scene
+        scene.onKeyboardObservable.add((info) => {
+            if (info.type === KeyboardEventTypes.KEYDOWN) {
+                this.handleKeyDown(info.event);
+            }
+        });
     }
 
-    handleKeyUp(event) {
-      
-    }
-
-    updateRotation() {
-
-    }
-
-    // Function to handle arrow key presses
+    // Function to handle key down events and log each key individually
     handleKeyDown(event) {
-        const speed = 0.1; // Adjust the speed as needed
-
-        switch (event.key) {
-            case "ArrowUp":
-               
-                break;
-            case "ArrowDown":
-             
-                break;
-            case "ArrowLeft":
-               
-            
-                break;
-            case "ArrowRight":
-        
-                break;
-            case " ":
-          
-                break;
+        if (event.key === "z" || event.key === "Z") {
+            let forward = this.body.transformNode.forward.scale(-5);
+            this.body.applyForce(forward,this.body.transformNode.position);
+            this.body.setAngularVelocity(Vector3.ZeroReadOnly);
+            console.log("Z key pressed");
+        } else if (event.key === "q" || event.key === "Q") {
+            this.body.applyForce(new Vector3(5,0,0),new Vector3(0,0,0));
+            this.body.setAngularVelocity(Vector3.ZeroReadOnly);
+            console.log("Q key pressed");
+        } else if (event.key === "d" || event.key === "D") {
+            this.body.applyForce(new Vector3(-5,0,0),new Vector3(0,0,0));
+            this.body.setAngularVelocity(Vector3.ZeroReadOnly);
+            console.log("D key pressed");
         }
     }
-    
 }

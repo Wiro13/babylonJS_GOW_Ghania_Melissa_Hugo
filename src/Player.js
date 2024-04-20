@@ -13,17 +13,20 @@ export class Player{
         this.enableMovement();
     }
     createPlayer(){
-        let player = MeshBuilder.CreateCapsule("player",this.scene);
-        player.position = new Vector3(0,5,0);
+        //let player = MeshBuilder.CreateCapsule("player",this.scene);
+       let player = MeshBuilder.CreateBox("player",this.scene);
+        player.position = new Vector3(3,5,0);
+       
+        //const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.CAPSULE, { mass: 1, restitution: 0.75 }, this.scene);
+        const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, this.scene);
         this.body = player.physicsBody;
-        const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.CAPSULE, { mass: 1, restitution: 0.75 }, this.scene);
-    
     }
 
     enableMovement(){
         var characterController = new CharacterController(this.scene,this.body);
 
     }
+
     
 
 }
