@@ -4,7 +4,8 @@ import HavokPhysics from "@babylonjs/havok";
 
 
 import mountainUrl from "../assets/models/snowy_slope.glb";
-import skierUrl from "../assets/models/skier_lowpoly.glb";
+import skierUrl from "../assets/models/skier_low_poly_character.glb";
+
 
 export class Models{
 
@@ -31,7 +32,7 @@ export class Models{
     }
 
 
-    skieur(){
+    skieur1(){
         SceneLoader.ImportMeshAsync("", "", skierUrl,).then((result) => {
             let capsule = MeshBuilder.CreateBox("collider", this.scene);
             capsule.material = new StandardMaterial("capsuleMat");
@@ -43,7 +44,18 @@ export class Models{
             capsule.position.y = 5;
             capsule.position.x = 3.5;
     
-            new PhysicsAggregate(capsule, PhysicsShapeType.CONVEX_HULL, { mass: 3, restitution: 0 },this.scene);
+            //new PhysicsAggregate(capsule, PhysicsShapeType.CONVEX_HULL, { mass: 3, restitution: 0 },this.scene);
+        });
+    }
+
+    skieur(x,y,z){
+        SceneLoader.ImportMeshAsync("", "", skierUrl,).then((result) => {
+            
+            let skier = result.meshes[1]
+            skier.scaling = new Vector3(0.01, 0.01, 0.01);
+            skier.position = new Vector3(x,y,z)
+            return skier;
+            //new PhysicsAggregate(capsule, PhysicsShapeType.CONVEX_HULL, { mass: 3, restitution: 0 },this.scene);
         });
     }
 

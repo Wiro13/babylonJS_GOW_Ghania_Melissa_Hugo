@@ -3,7 +3,6 @@ import { Inspector } from "@babylonjs/inspector";
 import HavokPhysics from "@babylonjs/havok";
 import { Models } from "./Models";
 
-import meshUrl from "../assets/models/skier_lowpoly.glb";
 import mountainUrl from "../assets/models/snowy_slope.glb";
 import { Player } from "./Player";
 import { CharacterController } from "./CharacterController";

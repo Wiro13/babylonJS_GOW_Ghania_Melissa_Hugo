@@ -2,9 +2,11 @@ import { Color3, Color4, CubeTexture, DefaultRenderingPipeline, DirectionalLight
 import { Inspector } from "@babylonjs/inspector";
 import HavokPhysics from "@babylonjs/havok";
 import { CharacterController } from "./CharacterController";
+import { Models } from "./Models";
 
 
 export class Player{
+
 
     constructor(scene){
         this.scene=scene;
@@ -13,8 +15,11 @@ export class Player{
         this.enableMovement();
     }
     createPlayer(){
-        //let player = MeshBuilder.CreateCapsule("player",this.scene);
-       let player = MeshBuilder.CreateBox("player",this.scene);
+
+        //let player = new Models().skieur(3,5,0);
+
+        
+        let player = MeshBuilder.CreateBox("player",this.scene);
         player.position = new Vector3(3,5,0);
        
         //const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.CAPSULE, { mass: 1, restitution: 0.75 }, this.scene);
