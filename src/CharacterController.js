@@ -18,16 +18,16 @@ export class CharacterController {
     // Function to handle key down events and log each key individually
     handleKeyDown(event) {
         if (event.key === "z" || event.key === "Z") {
-            let forward = this.body.transformNode.forward.scale(-5);
+            let forward = this.body.transformNode.forward.scale(-25);
             this.body.applyForce(forward,this.body.transformNode.position);
             this.body.setAngularVelocity(Vector3.ZeroReadOnly);
             console.log("Z key pressed");
         } else if (event.key === "q" || event.key === "Q") {
-            this.body.applyForce(new Vector3(5,0,0),new Vector3(0,0,0));
+            this.body.applyForce(new Vector3(20,0,0),new Vector3(0,0,0));
             this.body.setAngularVelocity(Vector3.ZeroReadOnly);
             console.log("Q key pressed");
         } else if (event.key === "d" || event.key === "D") {
-            this.body.applyForce(new Vector3(-5,0,0),new Vector3(0,0,0));
+            this.body.applyForce(new Vector3(-20,0,0),new Vector3(0,0,0));
             this.body.setAngularVelocity(Vector3.ZeroReadOnly);
             console.log("D key pressed");
         }

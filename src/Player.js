@@ -3,6 +3,7 @@ import { Inspector } from "@babylonjs/inspector";
 import HavokPhysics from "@babylonjs/havok";
 import { CharacterController } from "./CharacterController";
 import { Models } from "./Models";
+import skierUrl from "../assets/models/skier_low_poly_character.glb";
 
 
 export class Player{
@@ -21,6 +22,9 @@ export class Player{
         
         let player = MeshBuilder.CreateBox("player",this.scene);
         player.position = new Vector3(3,5,0);
+        player.isVisible = false;
+
+        this.character(3,5,0,player);
        
         //const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.CAPSULE, { mass: 1, restitution: 0.75 }, this.scene);
         const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, this.scene);
@@ -30,6 +34,17 @@ export class Player{
     enableMovement(){
         var characterController = new CharacterController(this.scene,this.body);
 
+    }
+    async character(x,y,z,parent){
+        let mesh; // Déclaration de mesh à un niveau supérieur pour qu'il soit accessible en dehors de la fonction de rappel
+
+        const { meshes} = await SceneLoader.ImportMeshAsync("","",skierUrl, this.scene);
+
+        mesh = meshes[0]; // Assignation de meshes[0] à mesh
+        mesh.name = "RUNNER";
+        mesh.position = new Vector3(x, y, z); // Positionne le modèle une fois chargé
+        mesh.setParent(parent);
+        //mesh.rotate(new Vector3(0,0,-1));
     }
 
     

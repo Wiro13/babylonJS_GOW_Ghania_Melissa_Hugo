@@ -1,42 +1,29 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fr">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>BabylonJS Game</title>
-    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Ski</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
     <style>
-        html,
-        body {
-            overflow: hidden;
-            width: 100%;
+        /* styles.css */
+        body,
+        html {
             height: 100%;
             margin: 0;
             padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
             background: url("image_accueil.jpg");
             background-size: 100% 100%;
             background-repeat: no-repeat;
+
         }
 
-        #renderCanvas {
-            width: 100%;
-            height: 100%;
-            touch-action: none;
-        }
-
-        #fps {
-            position: absolute;
-            background-color: black;
-            border: 2px solid red;
-            text-align: center;
-            font-size: 16px;
-            color: white;
-            top: 15px;
-            right: 10px;
-            width: 60px;
-            height: 20px;
-        }
 
         .overlay {
             position: absolute;
@@ -153,9 +140,6 @@
             }
         }
     </style>
-</head>
-
-<body>
     <div class="background">
         <div class="overlay"></div>
         <div class="container">
@@ -164,10 +148,14 @@
             <button id="startButton">Start</button>
         </div>
     </div>
-    <!-- <canvas id="renderCanvas" touch-action="none"></canvas> -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('startButton').addEventListener('click', function () {
+                window.location.href = 'index.html'; // Remplacez par le chemin de votre nouvelle page
+            });
+        });
 
+    </script>
 </body>
-<script src="../src/index.js"></script>
-
 
 </html>

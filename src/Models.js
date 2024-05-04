@@ -49,7 +49,7 @@ export class Models{
     }
 
     skieur(x,y,z){
-        SceneLoader.ImportMeshAsync("", "", skierUrl,).then((result) => {
+        SceneLoader.ImportMeshAsync("", "", skierUrl,this.scene).then((result) => {
             
             let skier = result.meshes[1]
             skier.scaling = new Vector3(0.01, 0.01, 0.01);
