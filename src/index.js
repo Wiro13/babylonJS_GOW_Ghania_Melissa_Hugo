@@ -7,11 +7,23 @@ import mountainUrl from "../assets/models/snowy_slope.glb";
 import { Player } from "./Player";
 import { CharacterController } from "./CharacterController";
 
+window.onload = () => {
+    var startButton = document.getElementById("startButton");
+    startButton.addEventListener("click", () => {
+        launchGame();
+    }
+    );
+};
+
+/****************************Variables globales ************************************************* */
 
 let engine, canvas, papa, camera;
 /****************************Lancement de l'appli ************************************************* */
-window.onload = async () => {
+async function launchGame() {
+    var backgroundSite = document.getElementById("backgroundGame");
+    backgroundSite.style.display = "none";
     canvas = document.getElementById("renderCanvas");
+    canvas.style.display = "block";
     engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false });
     const scene = await createScene();
     Inspector.Show(scene, {});
@@ -19,7 +31,7 @@ window.onload = async () => {
     engine.runRenderLoop(() => {
         scene.render();
     });
-
+    
     window.addEventListener("resize", () => {
         engine.resize();
     });
