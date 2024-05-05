@@ -1,15 +1,21 @@
-<!doctype html><html lang="fr" xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BabylonJS Game</title><link rel="icon" type="image/x-icon" href="./favicon.ico"><style>html, body {
+<!doctype html><html lang="fr" xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BabylonJS Game</title><link rel="icon" type="image/x-icon" href="./favicon.ico"><style>html,
+        body {
             overflow: hidden;
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
+            background: url("image_accueil.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
         }
+
         #renderCanvas {
             width: 100%;
             height: 100%;
             touch-action: none;
         }
+
         #fps {
             position: absolute;
             background-color: black;
@@ -21,4 +27,119 @@
             right: 10px;
             width: 60px;
             height: 20px;
-        }</style><link rel="icon" href="favicon.ico"><script defer="defer" src="js/babylonBundle.js"></script></head><body><canvas id="renderCanvas" touch-action="none"></canvas><div id="fps">0</div></body></html>
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+        }
+
+        h1 {
+
+            text-transform: uppercase;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+            animation: fadeInDown 1.5s ease-out;
+            padding-top: 100px;
+            color: whitesmoke;
+            font-family: cursive;
+
+
+        }
+
+        p {
+            font-size: 1.5em;
+            margin: 20px auto;
+            width: 80%;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        #startButton {
+            font-size: 1.5em;
+            padding: 15px 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease-in-out;
+
+        }
+
+        #startButton:hover {
+            transform: scale(1.1);
+            background-color: #fff;
+            color: #1a8cff;
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.75);
+
+        }
+
+        #startButton {
+            margin-top: 60px;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                background-position: 0 0;
+            }
+
+            50% {
+                background-position: 100% 0;
+            }
+
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }</style><link rel="icon" href="favicon.ico"><script defer="defer" src="js/babylonBundle.js"></script></head><body><div class="background" id="backgroundGame"><div class="overlay"></div><div class="container"><h1>Bienvenue dans le Jeu de Ski!</h1><br><button id="startButton">Start</button></div></div><canvas id="renderCanvas" touch-action="none" style="display:none;"></canvas></body><script src="../src/index.js"></script></html>
