@@ -45,14 +45,19 @@ var createScene = async () => {
     //Gestion de la physique
     const havokInstance = await HavokPhysics();
     const hk = new HavokPlugin(true, havokInstance);
-    scene.enablePhysics(new Vector3(0, -9.81, 0), hk);
-
-    
+    scene.enablePhysics(new Vector3(0, -1, 0), hk);
 
     //Creation de la caméra developpeur
-    const camera = new FreeCamera("camera1", new Vector3(-18, 10, 0), scene);
-    camera.setTarget(Vector3.Zero());
-    camera.attachControl(canvas, true);
+    //const camera = new FreeCamera("camera1", new Vector3(-18, 10, 0), scene);
+    //camera.setTarget(Vector3.Zero());
+    //camera.attachControl(canvas, true);
+
+    var camera = new FollowCamera("followCam", new Vector3(0, 10, -20), scene);
+    camera.radius = 3;
+    camera.heightOffset = 3;
+    camera.rotationOffset = 90;
+    camera.cameraAcceleration = 0.05;
+    camera.maxCameraSpeed = 10;
     
     //musique 
     const music = new Sound("Music", "music.wav", scene, function () {
@@ -66,10 +71,9 @@ var createScene = async () => {
     /**************************************Gestion du joueur******************************************/
     var player = new Player(scene);
 
+    let playerMesh = scene.getMeshByName("player");
+    camera.lockedTarget = playerMesh;
     /**************************************Gestion des Object 3D******************************************/
-    // var ground = new Models(scene);
-    // ground.ground();
-    
     var map = new Models(scene);
     map.importMontain();
 

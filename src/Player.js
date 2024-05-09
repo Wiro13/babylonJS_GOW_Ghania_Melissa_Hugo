@@ -6,20 +6,16 @@ import { Models } from "./Models";
 import skierUrl from "../assets/models/skier_low_poly_character.glb";
 
 
-export class Player{
-
-
+export class Player {
     constructor(scene){
-        this.scene=scene;
+        this.scene = scene;
         this.body;
         this.createPlayer();
         this.enableMovement();
     }
+
     createPlayer(){
 
-        //let player = new Models().skieur(3,5,0);
-
-        
         let player = MeshBuilder.CreateBox("player",this.scene);
         player.position = new Vector3(3,5,0);
         player.scaling._x = 0.4;
@@ -27,27 +23,24 @@ export class Player{
         player.scaling._y = 0.3;
         player.isVisible = false;
 
-
         this.character(3,5,0,player);
        
-        //const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.CAPSULE, { mass: 1, restitution: 0.75 }, this.scene);
-        const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, this.scene);
+        const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.BOX, { mass: 1.35, restitution: 0.75 }, this.scene);
         this.body = player.physicsBody;
     }
 
     enableMovement(){
         var characterController = new CharacterController(this.scene,this.body);
-
     }
+
     async character(x,y,z,parent){
-        let mesh; // Déclaration de mesh à un niveau supérieur pour qu'il soit accessible en dehors de la fonction de rappel
+        let mesh;
 
         const { meshes} = await SceneLoader.ImportMeshAsync("","",skierUrl, this.scene);
 
         mesh = meshes[0]; // Assignation de meshes[0] à mesh
-        mesh.name = "SKIER";
+        mesh.name = "Skier";
         mesh.position = new Vector3(x, y, z); // Positionne le modèle une fois chargé
         mesh.setParent(parent);
-        //mesh.rotate(new Vector3(0,0,-1));
     }
 }
