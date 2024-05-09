@@ -22,7 +22,11 @@ export class Player{
         
         let player = MeshBuilder.CreateBox("player",this.scene);
         player.position = new Vector3(3,5,0);
+        player.scaling._x = 0.4;
+        player.scaling._z = 0.25;
+        player.scaling._y = 0.3;
         player.isVisible = false;
+
 
         this.character(3,5,0,player);
        
@@ -41,12 +45,9 @@ export class Player{
         const { meshes} = await SceneLoader.ImportMeshAsync("","",skierUrl, this.scene);
 
         mesh = meshes[0]; // Assignation de meshes[0] à mesh
-        mesh.name = "RUNNER";
+        mesh.name = "SKIER";
         mesh.position = new Vector3(x, y, z); // Positionne le modèle une fois chargé
         mesh.setParent(parent);
         //mesh.rotate(new Vector3(0,0,-1));
     }
-
-    
-
 }
