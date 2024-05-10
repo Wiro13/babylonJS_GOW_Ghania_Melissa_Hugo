@@ -10,8 +10,8 @@ import { CharacterController } from "./CharacterController";
 window.onload = () => {
     var startButton = document.getElementById("startButton");
     startButton.addEventListener("click", () => {
-        launchGame();
-    }
+            launchGame();
+        }
     );
 };
 
@@ -45,40 +45,41 @@ var createScene = async () => {
     //Gestion de la physique
     const havokInstance = await HavokPhysics();
     const hk = new HavokPlugin(true, havokInstance);
-    scene.enablePhysics(new Vector3(0, -5, 0), hk);
+    scene.enablePhysics(new Vector3(0, -0.2, 0), hk);
 
     //Creation de la caméra developpeur
-    //const camera = new FreeCamera("camera1", new Vector3(-18, 10, 0), scene);
+    //const camera = new FreeCamera("camera1", new Vector3(-1, 1, 0), scene);
     //camera.setTarget(Vector3.Zero());
     //camera.attachControl(canvas, true);
 
+    //Creation de la caméra 3rd person
     var camera = new FollowCamera("followCam", new Vector3(0, 10, -20), scene);
-    camera.radius = 6;
-    camera.heightOffset = 2.5;
+    camera.radius = 0.9;
+    camera.heightOffset = 0.9;
     camera.rotationOffset = 90;
     camera.cameraAcceleration = 0.05;
     camera.maxCameraSpeed = 10;
-    
-    //musique 
+
+    //Musique 
     const music = new Sound("Music", "music.wav", scene, function () {
-        // Sound has been downloaded & decoded
         music.play();
     });
+
     //Creation du Light
     let light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
 
-    /**************************************Gestion du joueur******************************************/
-    var player = new Player(scene);
-
-    let playerMesh = scene.getMeshByName("player");
-    camera.lockedTarget = playerMesh;
     /**************************************Gestion des Object 3D******************************************/
     var map = new Models(scene);
     map.importMontain();
 
     var skieur = new Models(scene);
 
+    /**************************************Gestion du joueur******************************************/
+    var player = new Player(scene);
+
+    let playerMesh = scene.getMeshByName("player");
+    camera.lockedTarget = playerMesh;
 
     /***********************************fin de Gestion des Object 3D***************************************/
     return scene;

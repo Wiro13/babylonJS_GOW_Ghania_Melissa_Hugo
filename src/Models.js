@@ -9,35 +9,55 @@ import skierUrl from "../assets/models/skier_low_poly_character.glb";
 export class Models {
 
     constructor(scene) {
-        this.scene=scene;
+        this.scene = scene;
     }
-
+/*
     importMontain() {
         SceneLoader.ImportMeshAsync("", "", mountainUrl).then((result) => {
             let mountain = result.meshes[1];
-            mountain.name ="Moutain"
+            mountain.name = "Mountain";
             mountain.position = new Vector3(0, 0, 0);
-            mountain.scaling = new Vector3(10, 10, 10);
-    
-            let mountainMaterial = new StandardMaterial("mountainMaterial",this.scene);
+            mountain.scaling = new Vector3(1, 1, 1);
+
+            let mountainMaterial = new StandardMaterial("mountainMaterial", this.scene);
             mountainMaterial.diffuseColor = new Color3(1, 1, 1);
             mountain.material = mountainMaterial;
-    
+
             new PhysicsAggregate(mountain, PhysicsShapeType.MESH, { mass: 0, restitution: 0 }, this.scene);
         });
     }
+*/
+    importMontain() {
+        let boundingBox;
+            SceneLoader.ImportMesh("", "", mountainUrl, this.scene, (meshes) => {
+                let mountain = meshes[1];
+                mountain.name = "Mountain";
+                mountain.position = new Vector3(0, 0, 0);
+                mountain.scaling = new Vector3(1, 1, 1);
+
+                let mountainMaterial = new StandardMaterial("mountainMaterial", this.scene);
+                mountainMaterial.diffuseColor = new Color3(1, 1, 1);
+                mountain.material = mountainMaterial;
+                
+                let i = 1;
+                console.log(meshes.length);
+                console.log(i);
+                while(i < meshes.length) {
+                    new PhysicsAggregate(meshes[i], PhysicsShapeType.MESH, { mass: 0, restitution: 0 }, this.scene);
+                    i++;
+                }
+            }, undefined, undefined, "");
+	    return { boundingBox };
+    }
 
     skieur1() {
-        SceneLoader.ImportMeshAsync("", "", skierUrl,).then((result) => {
+        SceneLoader.ImportMeshAsync("", "", skierUrl, this.scene).then((result) => {
             let capsule = MeshBuilder.CreateBox("collider", this.scene);
             capsule.material = new StandardMaterial("capsuleMat");
             capsule.isVisible = false;
             let skier = result.meshes[1];
             skier.parent = capsule;
             skier.scaling = new Vector3(0.01, 0.01, 0.01);
-
-            capsule.position.y = 5;
-            capsule.position.x = 3.5;
         });
     }
 
@@ -46,9 +66,8 @@ export class Models {
             
             let skier = result.meshes[1]
             skier.scaling = new Vector3(0.01, 0.01, 0.01);
-            skier.position = new Vector3(x,y,z)
+            skier.position = new Vector3(x, y, z);
             return skier;
-            //new PhysicsAggregate(capsule, PhysicsShapeType.CONVEX_HULL, { mass: 3, restitution: 0 },this.scene);
         });
     }
 
@@ -59,7 +78,7 @@ export class Models {
         const groundAggregate = new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, this.scene);
         //Gestion de la couleur 
         let snowMaterial = new StandardMaterial("snowMaterial", this.scene);
-        snowMaterial.diffuseColor = new Color3(0.8, 0.8, 1); // Light blue color
+        snowMaterial.diffuseColor = new Color3(0.8, 0.8, 1);
         snowMaterial.specularColor = new Color3(0, 0, 0);
         ground.material = snowMaterial;
     }

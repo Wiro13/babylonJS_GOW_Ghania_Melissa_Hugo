@@ -15,17 +15,16 @@ export class Player {
     }
 
     createPlayer(){
-
         let player = MeshBuilder.CreateBox("player",this.scene);
-        player.position = new Vector3(3,5,0);
-        player.scaling._x = 0.5;
-        player.scaling._z = 0.35;
-        player.scaling._y = 0.4;
+        player.position = new Vector3(0.22,0.57,0);
+        player.scaling._x = 0.08;
+        player.scaling._z = 0.045;
+        player.scaling._y = 0.04;
         player.isVisible = false;
 
-        this.character(3,5,0,player);
+        this.character(0.22, 0.57, 0, player);
        
-        const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, this.scene);
+        const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.BOX, { mass: 1, restitution: 0.075 }, this.scene);
         this.body = player.physicsBody;
     }
 
@@ -36,10 +35,13 @@ export class Player {
     async character(x,y,z,parent){
         let mesh;
 
-        const { meshes} = await SceneLoader.ImportMeshAsync("","",skierUrl, this.scene);
+        const {meshes} = await SceneLoader.ImportMeshAsync("","",skierUrl, this.scene);
 
         mesh = meshes[0]; // Assignation de meshes[0] à mesh
         mesh.name = "Skier";
+        mesh.scaling._x = 0.1;
+        mesh.scaling._y = 0.1;
+        mesh.scaling._z = 0.1;
         mesh.position = new Vector3(x, y, z); // Positionne le modèle une fois chargé
         mesh.setParent(parent);
     }
