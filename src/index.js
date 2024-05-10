@@ -45,7 +45,7 @@ var createScene = async () => {
     //Gestion de la physique
     const havokInstance = await HavokPhysics();
     const hk = new HavokPlugin(true, havokInstance);
-    scene.enablePhysics(new Vector3(0, -1, 0), hk);
+    scene.enablePhysics(new Vector3(0, -5, 0), hk);
 
     //Creation de la caméra developpeur
     //const camera = new FreeCamera("camera1", new Vector3(-18, 10, 0), scene);
@@ -53,8 +53,8 @@ var createScene = async () => {
     //camera.attachControl(canvas, true);
 
     var camera = new FollowCamera("followCam", new Vector3(0, 10, -20), scene);
-    camera.radius = 3;
-    camera.heightOffset = 3;
+    camera.radius = 6;
+    camera.heightOffset = 2.5;
     camera.rotationOffset = 90;
     camera.cameraAcceleration = 0.05;
     camera.maxCameraSpeed = 10;

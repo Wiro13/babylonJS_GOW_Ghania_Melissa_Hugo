@@ -18,14 +18,14 @@ export class Player {
 
         let player = MeshBuilder.CreateBox("player",this.scene);
         player.position = new Vector3(3,5,0);
-        player.scaling._x = 0.4;
-        player.scaling._z = 0.25;
-        player.scaling._y = 0.3;
+        player.scaling._x = 0.5;
+        player.scaling._z = 0.35;
+        player.scaling._y = 0.4;
         player.isVisible = false;
 
         this.character(3,5,0,player);
        
-        const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.BOX, { mass: 1.35, restitution: 0.75 }, this.scene);
+        const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, this.scene);
         this.body = player.physicsBody;
     }
 
