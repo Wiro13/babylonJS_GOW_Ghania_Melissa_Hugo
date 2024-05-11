@@ -26,7 +26,7 @@ async function launchGame() {
     canvas.style.display = "block";
     engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false });
     const scene = await createScene();
-    Inspector.Show(scene, {});
+    //Inspector.Show(scene, {});
 
     engine.runRenderLoop(() => {
         scene.render();
@@ -54,8 +54,8 @@ var createScene = async () => {
 
     //Creation de la caméra 3rd person
     var camera = new FollowCamera("followCam", new Vector3(0, 10, -20), scene);
-    camera.radius = 0.9;
-    camera.heightOffset = 0.9;
+    camera.radius = 1;
+    camera.heightOffset = 0.7;
     camera.rotationOffset = 90;
     camera.cameraAcceleration = 0.05;
     camera.maxCameraSpeed = 10;
