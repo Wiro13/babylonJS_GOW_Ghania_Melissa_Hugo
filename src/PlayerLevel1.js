@@ -1,11 +1,11 @@
 
 import CharacterController from './CharacterController2.js';
 import { CustomModels } from './CustomModels.js';
-import { Color3, Color4, CubeTexture, DefaultRenderingPipeline, DirectionalLight, FlyCamera, FollowCamera, FreeCamera, GizmoManager, HavokPlugin, HemisphericLight, KeyboardEventTypes, MeshBuilder, MotionBlurPostProcess, ParticleSystem, PhysicsAggregate, PhysicsMotionType, PhysicsShapeType, Quaternion, Scalar, Scene, SceneLoader, ShadowGenerator, Sound, StandardMaterial, TargetCamera, Texture, TransformNode, UniversalCamera, Vector3 } from "@babylonjs/core";
+import { Color3, Color4, CubeTexture, DefaultRenderingPipeline,PhysicsShapeBox, PhysicsBody,DirectionalLight, FlyCamera, FollowCamera, FreeCamera, GizmoManager, HavokPlugin, HemisphericLight, KeyboardEventTypes, MeshBuilder, MotionBlurPostProcess, ParticleSystem, PhysicsAggregate, PhysicsMotionType, PhysicsShapeType, Quaternion, Scalar, Scene, SceneLoader, ShadowGenerator, Sound, StandardMaterial, TargetCamera, Texture, TransformNode, UniversalCamera, Vector3 } from "@babylonjs/core";
 import { Inspector } from "@babylonjs/inspector";
 import HavokPhysics from "@babylonjs/havok";
 var canvas2 = document.getElementById("renderCanvas");
-//var engine2 = new BABYLON.Engine(canvas2, true);
+//var engine2 = new Engine(canvas2, true);
 
 //variables
 
@@ -37,7 +37,7 @@ export class PlayerLevel1 {
         var box = MeshBuilder.CreateBox(name, {width: boxW, height: boxH, depth: boxD},scene);
         box.position = new Vector3(x,y,z);
         //box.isVisible = false;
-        //var box2 = BABYLON.MeshBuilder.CreateBox(name, {width: boxW, height: boxH, depth: boxD},scene);
+        //var box2 = MeshBuilder.CreateBox(name, {width: boxW, height: boxH, depth: boxD},scene);
         //box.addChild(snowMan);
         let snowMan = new CustomModels(scene).CreateSnowManOnSki(x,y-0.5,z,box);
     
@@ -46,16 +46,16 @@ export class PlayerLevel1 {
         
       
         
-        var boxShape = new BABYLON.PhysicsShapeBox(new BABYLON.Vector3(0,0,0), BABYLON.Quaternion.Identity(), new BABYLON.Vector3(boxW, boxH, boxD), scene);
-        var boxBody = new BABYLON.PhysicsBody(box, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+        var boxShape = new PhysicsShapeBox(new Vector3(0,0,0), Quaternion.Identity(), new Vector3(boxW, boxH, boxD), scene);
+        var boxBody = new PhysicsBody(box, PhysicsMotionType.DYNAMIC, false, scene);
     
         boxBody.shape = boxShape;
         boxBody.setMassProperties({mass : 1})
     
     
         //add create material add tothe cube
-        var blueMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
-        blueMaterial.diffuseColor = new BABYLON.Color3(0, 0, 1); // Rouge doux
+        var blueMaterial = new StandardMaterial("groundMaterial", scene);
+        blueMaterial.diffuseColor = new Color3(0, 0, 1); // Rouge doux
         box.material = blueMaterial;
        
         
@@ -85,11 +85,7 @@ export class PlayerLevel1 {
     }
     
 
-    destroyPlayer(){
-        
-        control = null;
-    }
-
+ 
 
 
 }

@@ -6,7 +6,7 @@ import { Models } from "./Models";
 import mountainUrl from "../assets/models/snowy_slope.glb";
 import { Player } from "./Player";
 import { CharacterController } from "./CharacterController";
-
+import {PlayerLevel1} from "./PlayerLevel1";
 window.onload = () => {
     var startButton = document.getElementById("buttonStart");
     startButton.addEventListener("click", () => {
@@ -45,7 +45,7 @@ var createScene = async () => {
     //Gestion de la physique
     const havokInstance = await HavokPhysics();
     const hk = new HavokPlugin(true, havokInstance);
-    scene.enablePhysics(new Vector3(0, -0.2, 0), hk);
+    scene.enablePhysics(new Vector3(0, -9.81, 0), hk);
 
     //Creation de la caméra developpeur
     const camera = new FreeCamera("camera1", new Vector3(-3, 12, -3), scene);
