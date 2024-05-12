@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>BabylonJS Game</title>
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    
     <style>
         html,
         body {
@@ -14,9 +15,6 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            background: url("image_accueil.jpg");
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
         }
 
         #renderCanvas {
@@ -37,7 +35,10 @@
             width: 60px;
             height: 20px;
         }
-
+        .logo{
+            border-radius: 100%;
+            width: 350px;
+        }
         .overlay {
             position: absolute;
             top: 0;
@@ -159,14 +160,66 @@
     <div class="background" id="backgroundGame">
         <div class="overlay"></div>
         <div class="container">
-            <h1>Bienvenue dans le Jeu de Ski!</h1>
+            <img src="logo.png" alt="Logo" class="logo">
             <br>
-            <button id="startButton">Start</button>
+            <button id="startButton">Play ►</button>
         </div>
     </div>
     <canvas id="renderCanvas" touch-action="none" style="display:none;"></canvas>
+    <div id="videoContainer"></div>
 
 </body>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+    // Replace the video ID with the ID of the YouTube video you want to use
+    var videoID = 'GZbU3zvTTG8';
+    
+    // Function to create and set up the YouTube player
+    function onYouTubeIframeAPIReady() {
+        var player = new YT.Player('videoContainer', {
+            videoId: videoID,
+            playerVars: {
+                'autoplay': 1,
+                'controls': 0,
+                'showinfo': 0,
+                'autohide': 1,
+                'loop': 1,
+                'mute': 1,
+                'playlist': videoID
+            },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    // Function to adjust the player size when it's ready
+    function onPlayerReady(event) {
+        event.target.mute();
+        event.target.playVideo();
+        resizeVideo();
+    }
+
+    // Function to resize the video container when the window size changes
+    function resizeVideo() {
+        var $videoContainer = document.getElementById('videoContainer');
+        $videoContainer.style.width = window.innerWidth + 'px';
+        $videoContainer.style.height = window.innerHeight + 'px';
+    }
+
+    // Adjust video size when window is resized
+    window.onresize = resizeVideo;
+
+    // Function to handle video state change events
+    function onPlayerStateChange(event) {
+        // Loop the video
+        if (event.data === YT.PlayerState.ENDED) {
+            event.target.playVideo();
+        }
+    }
+</script>
+
 <script src="../src/index.js"></script>
 
 
