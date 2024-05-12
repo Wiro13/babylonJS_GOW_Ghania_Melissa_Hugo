@@ -22,7 +22,7 @@ export class Player {
         player.scaling._y = 0.04;
         player.isVisible = false;
 
-        this.character(0.22, 0.57, 0, player);
+        this.character(0, 0, 0, player);
        
         const playerAggregate = new PhysicsAggregate(player, PhysicsShapeType.BOX, { mass: 1, restitution: 0.075 }, this.scene);
         this.body = player.physicsBody;
@@ -37,12 +37,12 @@ export class Player {
 
         const {meshes} = await SceneLoader.ImportMeshAsync("","",skierUrl, this.scene);
 
-        mesh = meshes[0]; // Assignation de meshes[0] à mesh
+        mesh = meshes[0];
         mesh.name = "Skier";
         mesh.scaling._x = 0.1;
         mesh.scaling._y = 0.1;
         mesh.scaling._z = 0.1;
-        mesh.position = new Vector3(x, y, z); // Positionne le modèle une fois chargé
+        mesh.position = new Vector3(x, y, z);
         mesh.setParent(parent);
     }
 }

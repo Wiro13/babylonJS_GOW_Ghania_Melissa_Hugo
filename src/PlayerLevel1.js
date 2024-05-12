@@ -5,11 +5,6 @@ import { Color3, Color4, CubeTexture, DefaultRenderingPipeline,PhysicsShapeBox, 
 import { Inspector } from "@babylonjs/inspector";
 import HavokPhysics from "@babylonjs/havok";
 var canvas2 = document.getElementById("renderCanvas");
-//var engine2 = new Engine(canvas2, true);
-
-//variables
-
-
 
 export class PlayerLevel1 {
 
@@ -22,14 +17,8 @@ export class PlayerLevel1 {
         this.enablePlayerControl(forward,backward,left,right);
      
     }
-    
 
     testPlayer(scene,engine,name,x,y,z){
-
-        
-       //let flatPlane = new CustomModels(scene).flatplane(0,10,0,80,80,scene);
-        
-
         var boxW = 1;
         var boxH = 1;
         var boxD = 1;
@@ -38,14 +27,7 @@ export class PlayerLevel1 {
         box.position = new Vector3(x,y,z);
         box.rotation = new Vector3(0,0,0);
         box.isVisible = false;
-        //var box2 = MeshBuilder.CreateBox(name, {width: boxW, height: boxH, depth: boxD},scene);
-        //box.addChild(snowMan);
-        let snowMan = new CustomModels(scene).CreateSnowManOnSki(x,y+1,z,box);
-    
-       
-  
-        
-      
+        let snowMan = new CustomModels(scene).CreateSnowManOnSki(x, y+1, z, box);
         
         var boxShape = new PhysicsShapeBox(new Vector3(0,0,0), Quaternion.Identity(), new Vector3(boxW, boxH, boxD), scene);
         var boxBody = new PhysicsBody(box, PhysicsMotionType.DYNAMIC, false, scene);
@@ -53,41 +35,21 @@ export class PlayerLevel1 {
         boxBody.shape = boxShape;
         boxBody.setMassProperties({mass : 1})
     
-    
-        //add create material add tothe cube
         var blueMaterial = new StandardMaterial("groundMaterial", scene);
-        blueMaterial.diffuseColor = new Color3(0, 0, 1); // Rouge doux
+        blueMaterial.diffuseColor = new Color3(0, 0, 1);
         box.material = blueMaterial;
        
         
         boxBody.setCollisionCallbackEnabled(true)
 
         //rotate character
-      
-
         this.boxBody = boxBody;      
         
-     
-        
-      
-        
-        
-    
-       
- 
         return box;
-    
-        
     }
-  
- 
+
     enablePlayerControl(forward,backward,left,right){
        let control = new CharacterController(canvas2,this.engine,this.boxBody,forward,backward,left,right);
     }
-    
-
- 
-
-
 }
 export default PlayerLevel1;

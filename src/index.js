@@ -48,24 +48,23 @@ var createScene = async () => {
     scene.enablePhysics(new Vector3(0, -9.81, 0), hk);
 
     //Creation de la caméra developpeur
+    /*
     const camera = new FreeCamera("camera1", new Vector3(0, 12, -10), scene);
     camera.attachControl();
+    */
 
-    scene.debugLayer.show();
     //Creation de la caméra 3rd person
-    //var camera = new FollowCamera("followCam", new Vector3(0, 12, -10), scene);
+    var camera = new FollowCamera("followCam", new Vector3(0, 0, 0), scene);
     
-
-   
-    var player2 = new PlayerLevel1(scene,engine,"player",'z',"s","q","d",0,15,0);
-     let playerMeshk = scene.getMeshByName("player");
-    //camera.lockedTarget = playerMeshk;
-
+    
+    var player2 = new PlayerLevel1(scene,engine,"player",'z',"s","q","d",0,15,-5);
+    let playerMeshk = scene.getMeshByName("player");
+    camera.lockedTarget = playerMeshk;
 
     //Musique 
-    const music = new Sound("Music", "music.wav", scene, function () {
-        music.play();
-    });
+    let assetsManager = new AssetsManager(scene);
+    const music1Data = assetsManager.addBinaryFileTask("music1", music1Url);
+    var music = new Sound("music1", music1Data.data, scene, undefined, { loop: true, autoplay: false, volume: 0.4 });
 
     //Creation du Light
     let light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
@@ -79,8 +78,6 @@ var createScene = async () => {
 
     /**************************************Gestion du joueur******************************************/
   
-
-
 
     /***********************************fin de Gestion des Object 3D***************************************/
     return scene;

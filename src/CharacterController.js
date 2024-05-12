@@ -7,7 +7,6 @@ export class CharacterController {
         this.scene = scene;
         this.body = body;
 
-        // Listen to key down events on the scene
         scene.onKeyboardObservable.add((info) => {
             if (info.type === KeyboardEventTypes.KEYDOWN) {
                 this.handleKeyDown(info.event);
@@ -15,7 +14,6 @@ export class CharacterController {
         });
     }
 
-    // Function to handle key down events and log each key individually
     handleKeyDown(event) {
         if (event.key === "q" || event.key === "Q") {
             let forward = this.body.transformNode.forward.scale(-0.3);

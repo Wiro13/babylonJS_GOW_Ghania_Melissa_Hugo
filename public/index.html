@@ -2,6 +2,11 @@
 <html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+    <header>
+        <img src="https://media.discordapp.net/attachments/1168500014050463805/1239319211935793233/2560px-CGI_logo.png?ex=66427d75&is=66412bf5&hm=6867b5ff55bd54a1e1d8e45d884c4d48938da75e83a0a306b2e55f55fa11dee4&=&format=webp&quality=lossless&width=1261&height=591" alt="Logo 1" class="logos">
+        <img src="https://media.discordapp.net/attachments/1168500014050463805/1239321109187395675/GOW24_visuel_reseaux_sociaux.png?ex=66427f39&is=66412db9&hm=4955fe0ed751982083930ed324a6ac71c275ed9072c67277f9b22c7752eaa2fa&=&format=webp&quality=lossless&width=825&height=412" alt="Logo 3" class="logos">
+    </header>
+    
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
 
@@ -13,6 +18,11 @@
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
     
     <style>
+        header .logos {
+           width: 100px; /* Ajustez la taille selon vos besoins */
+           margin-right: 10px; /* Espacement entre les logos */
+        }
+
         .logo{
             border-radius: 100%;
             width: 350px;
@@ -703,7 +713,7 @@
     <div class="background" id="backgroundGame">
         <div class="overlay"></div>
         <div class="container">
-            <img src="logo.png" alt="Logo" class="logo">
+            <img src="https://media.discordapp.net/attachments/1238940843671552050/1239319665973530695/image.png?ex=66427de1&is=66412c61&hm=843d663be79b1233450c399b2874ec647d641e55a3bdbdccfa54ac80d95217ae&=&format=webp&quality=lossless&width=905&height=905" alt="Logo" class="logo">
             <br>
             <br>
             <br>
@@ -735,18 +745,16 @@
                     </a>
                 </div>
             </button>
+            <img src="https://media.discordapp.net/attachments/1168500014050463805/1239319163328266330/image.png?ex=66427d69&is=66412be9&hm=5b133927dd9bc1584ec96b255b81676c7a13b393929d7afc84819dc2e89b9b73&=&format=webp&quality=lossless&width=817&height=379" alt="Logo 2" class="logos">
         </div>
     </div>
     <canvas id="renderCanvas" touch-action="none" style="display:none;"></canvas>
     <div id="videoContainer"></div>
-
 </body>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    // Replace the video ID with the ID of the YouTube video you want to use
     var videoID = 'GZbU3zvTTG8';
     
-    // Function to create and set up the YouTube player
     function onYouTubeIframeAPIReady() {
         var player = new YT.Player('videoContainer', {
             videoId: videoID,
@@ -766,26 +774,21 @@
         });
     }
 
-    // Function to adjust the player size when it's ready
     function onPlayerReady(event) {
         event.target.mute();
         event.target.playVideo();
         resizeVideo();
     }
 
-    // Function to resize the video container when the window size changes
     function resizeVideo() {
         var $videoContainer = document.getElementById('videoContainer');
         $videoContainer.style.width = window.innerWidth + 'px';
         $videoContainer.style.height = window.innerHeight + 'px';
     }
 
-    // Adjust video size when window is resized
     window.onresize = resizeVideo;
 
-    // Function to handle video state change events
     function onPlayerStateChange(event) {
-        // Loop the video
         if (event.data === YT.PlayerState.ENDED) {
             event.target.playVideo();
         }
