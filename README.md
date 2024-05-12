@@ -16,7 +16,7 @@ Dans ce jeu de ski slalom créé avec BabylonJS, le joueur contrôle un skieur d
 ## Comment jouer
 1. Ouvrez votre navigateur web préféré.
 2. Accédez à https://wiro13.github.io/babylonJS_GOW_Ghania_Melissa_Hugo/.
-3. Suivez les instructions présentes sur l'écran d'accueil pour commencer à jouer.
+3. Utilisez les touches z (pour avancer), q (pour tourner a gauche), d (pour tourner a droite), pour controler votre personnage !
 
 ## Installation
 Pour installer et exécuter le jeu localement, suivez ces étapes :

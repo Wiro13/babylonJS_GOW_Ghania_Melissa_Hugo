@@ -1,4 +1,4 @@
-import { Engine, ArcFollowCamera, ArcRotateCamera, BoundingInfo, Color3, Color4, CubeTexture, DefaultRenderingPipeline, DirectionalLight, FlyCamera, FollowCamera, FreeCamera, GizmoManager, HavokPlugin, HemisphericLight, KeyboardEventTypes, MeshBuilder, MotionBlurPostProcess, ParticleSystem, PhysicsAggregate, PhysicsMotionType, PhysicsShapeType, Quaternion, Scalar, Scene, SceneLoader, ShadowGenerator, Sound, StandardMaterial, TargetCamera, Texture, TransformNode, UniversalCamera, Vector3 } from "@babylonjs/core";
+import { Engine, AssetsManager, ArcFollowCamera, ArcRotateCamera, BoundingInfo, Color3, Color4, CubeTexture, DefaultRenderingPipeline, DirectionalLight, FlyCamera, FollowCamera, FreeCamera, GizmoManager, HavokPlugin, HemisphericLight, KeyboardEventTypes, MeshBuilder, MotionBlurPostProcess, ParticleSystem, PhysicsAggregate, PhysicsMotionType, PhysicsShapeType, Quaternion, Scalar, Scene, SceneLoader, ShadowGenerator, Sound, StandardMaterial, TargetCamera, Texture, TransformNode, UniversalCamera, Vector3 } from "@babylonjs/core";
 import { Inspector } from "@babylonjs/inspector";
 import HavokPhysics from "@babylonjs/havok";
 import { Models } from "./Models";
@@ -63,8 +63,9 @@ var createScene = async () => {
 
     //Musique 
     let assetsManager = new AssetsManager(scene);
+    var music1Url = "PowderParadise.mp3";
     const music1Data = assetsManager.addBinaryFileTask("music1", music1Url);
-    var music = new Sound("music1", music1Data.data, scene, undefined, { loop: true, autoplay: false, volume: 0.4 });
+    var music = new Sound("music1", music1Data.data, scene, undefined, { loop: true, autoplay: false, volume: 1 });
 
     //Creation du Light
     let light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);

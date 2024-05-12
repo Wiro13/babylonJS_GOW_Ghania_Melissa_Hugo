@@ -43,6 +43,7 @@ export class Player {
         mesh.scaling._y = 0.1;
         mesh.scaling._z = 0.1;
         mesh.position = new Vector3(x, y, z);
+        mesh.rotate = 90;
         mesh.setParent(parent);
     }
 }
