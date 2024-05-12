@@ -48,17 +48,21 @@ var createScene = async () => {
     scene.enablePhysics(new Vector3(0, -0.2, 0), hk);
 
     //Creation de la caméra developpeur
-    //const camera = new FreeCamera("camera1", new Vector3(-1, 1, 0), scene);
-    //camera.setTarget(Vector3.Zero());
-    //camera.attachControl(canvas, true);
-
+    const camera = new FreeCamera("camera1", new Vector3(-3, 12, -3), scene);
+    camera.attachControl();
+/*
     //Creation de la caméra 3rd person
     var camera = new FollowCamera("followCam", new Vector3(0, 10, -20), scene);
     camera.radius = 1;
     camera.heightOffset = 0.7;
     camera.rotationOffset = 90;
     camera.cameraAcceleration = 0.05;
-    camera.maxCameraSpeed = 10;
+    camera.maxCameraSpeed = 10;*/
+
+    let playerMeshk = scene.getMeshByName("player");
+    var player2 = new PlayerLevel1(scene,engine,"player",'z',"s","q","d",0,15,0);
+    camera.lockedTarget = playerMeshk;
+
 
     //Musique 
     const music = new Sound("Music", "music.wav", scene, function () {
@@ -76,10 +80,9 @@ var createScene = async () => {
     var skieur = new Models(scene);
 
     /**************************************Gestion du joueur******************************************/
-    var player = new Player(scene);
+  
 
-    let playerMesh = scene.getMeshByName("player");
-    camera.lockedTarget = playerMesh;
+
 
     /***********************************fin de Gestion des Object 3D***************************************/
     return scene;
