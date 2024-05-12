@@ -34,7 +34,7 @@ export class Models {
                 mountain.name = "Mountain";
                 mountain.position = new Vector3(0, 0, 0);
                 mountain.scaling = new Vector3(1, 1, 1);
-
+                //mountain.rotation = new Vector3(10,0,0);
                 let mountainMaterial = new StandardMaterial("mountainMaterial", this.scene);
                 mountainMaterial.diffuseColor = new Color3(1, 1, 1);
                 mountain.material = mountainMaterial;
@@ -47,8 +47,8 @@ export class Models {
                     i++;
                 }
             }, undefined, undefined, "");
-	    return { boundingBox };
     }
+
 
     skieur1() {
         SceneLoader.ImportMeshAsync("", "", skierUrl, this.scene).then((result) => {

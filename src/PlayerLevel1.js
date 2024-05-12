@@ -27,19 +27,20 @@ export class PlayerLevel1 {
     testPlayer(scene,engine,name,x,y,z){
 
         
-       let flatPlane = new CustomModels(scene).flatplane(0,10,0,80,80,scene);
+       //let flatPlane = new CustomModels(scene).flatplane(0,10,0,80,80,scene);
         
 
-        var boxW = 2;
-        var boxH = 2;
-        var boxD = 2;
+        var boxW = 1;
+        var boxH = 1;
+        var boxD = 1;
 
         var box = MeshBuilder.CreateBox(name, {width: boxW, height: boxH, depth: boxD},scene);
         box.position = new Vector3(x,y,z);
-        //box.isVisible = false;
+        box.rotation = new Vector3(0,0,0);
+        box.isVisible = false;
         //var box2 = MeshBuilder.CreateBox(name, {width: boxW, height: boxH, depth: boxD},scene);
         //box.addChild(snowMan);
-        let snowMan = new CustomModels(scene).CreateSnowManOnSki(x,y-0.5,z,box);
+        let snowMan = new CustomModels(scene).CreateSnowManOnSki(x,y+1,z,box);
     
        
   
