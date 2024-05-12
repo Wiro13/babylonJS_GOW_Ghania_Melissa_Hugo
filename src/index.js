@@ -8,7 +8,7 @@ import { Player } from "./Player";
 import { CharacterController } from "./CharacterController";
 
 window.onload = () => {
-    var startButton = document.getElementById("startButton");
+    var startButton = document.getElementById("buttonStart");
     startButton.addEventListener("click", () => {
             launchGame();
         }
