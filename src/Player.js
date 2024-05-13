@@ -16,7 +16,7 @@ export class Player {
 
     createPlayer(){
         let player = MeshBuilder.CreateBox("player",this.scene);
-        player.position = new Vector3(0.22,0.57,0);
+        player.position = new Vector3(0,0,0);
         player.scaling._x = 0.08;
         player.scaling._z = 0.045;
         player.scaling._y = 0.04;
@@ -43,7 +43,7 @@ export class Player {
         mesh.scaling._y = 0.1;
         mesh.scaling._z = 0.1;
         mesh.position = new Vector3(x, y, z);
-        mesh.rotate = 90;
+        mesh.rotate = 180;
         mesh.setParent(parent);
     }
 }

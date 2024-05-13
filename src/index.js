@@ -54,7 +54,7 @@ var createScene = async () => {
     */
 
     //Creation de la caméra 3rd person
-    var camera = new FollowCamera("followCam", new Vector3(0, 0, 0), scene);
+    var camera = new FollowCamera("followCam", new Vector3(0, 60, 150), scene);
     
     
     var player2 = new PlayerLevel1(scene,engine,"player",'z',"s","q","d",0,15,-5);
