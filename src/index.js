@@ -1,11 +1,6 @@
-import { Engine, AssetsManager, ArcFollowCamera, ArcRotateCamera, BoundingInfo, Color3, Color4, CubeTexture, DefaultRenderingPipeline, DirectionalLight, FlyCamera, FollowCamera, FreeCamera, GizmoManager, HavokPlugin, HemisphericLight, KeyboardEventTypes, MeshBuilder, MotionBlurPostProcess, ParticleSystem, PhysicsAggregate, PhysicsMotionType, PhysicsShapeType, Quaternion, Scalar, Scene, SceneLoader, ShadowGenerator, Sound, StandardMaterial, TargetCamera, Texture, TransformNode, UniversalCamera, Vector3 } from "@babylonjs/core";
-import { Inspector } from "@babylonjs/inspector";
+import { Engine, AssetsManager, FollowCamera, HavokPlugin, HemisphericLight, KeyboardEventTypes, MeshBuilder, MotionBlurPostProcess, ParticleSystem, PhysicsAggregate, PhysicsMotionType, PhysicsShapeType, Quaternion, Scalar, Scene, SceneLoader, ShadowGenerator, Sound, StandardMaterial, TargetCamera, Texture, TransformNode, UniversalCamera, Vector3 } from "@babylonjs/core";
 import HavokPhysics from "@babylonjs/havok";
 import { Models } from "./Models";
-
-import mountainUrl from "../assets/models/snowy_slope.glb";
-import { Player } from "./Player";
-import { CharacterController } from "./CharacterController";
 import {PlayerLevel1} from "./PlayerLevel1";
 window.onload = () => {
     var startButton = document.getElementById("buttonStart");
@@ -32,9 +27,7 @@ async function launchGame() {
         scene.render();
     });
     
-    window.addEventListener("resize", () => {
-        engine.resize();
-    });
+    
 
 }
 
